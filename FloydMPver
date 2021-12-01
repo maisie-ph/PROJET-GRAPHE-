@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 
 
 
-public class FloydMPver {
+public class FloydMain {
 
     public static void main(String[] args) {
 
@@ -82,7 +82,12 @@ public class FloydMPver {
         }
 
 
-
+        // DETECTER UN CIRCUIT ABSORBANT
+        for(int i=0; i< sommet;i++ ){
+            if(matriceLongeur[i][i] < 0){
+                System.out.println("Il y a un circuit absorbant");
+            }
+        }
 
         //CALCULS (ALGORITHME DE FLOYD)
 
@@ -131,4 +136,5 @@ public class FloydMPver {
     }
 
 }
+
 
