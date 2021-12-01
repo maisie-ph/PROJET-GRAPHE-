@@ -1,0 +1,134 @@
+
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.io.BufferedReader;
+
+
+
+
+public class FloydMPver {
+
+    public static void main(String[] args) {
+
+        int sommet = 0;
+        int arcs = 0;
+        int pointDepart = 0;
+        int pointArrive = 0;
+        Double longeur = 0.0;
+        Double inf = Double.POSITIVE_INFINITY;
+
+        Double [][] matriceLongeur = null;
+        int [][] matricePredecesseur = null;
+
+        try {
+            File myFile = new File("test.txt");
+            Scanner myReader = new Scanner(myFile);
+
+            sommet = myReader.nextInt();
+            arcs = myReader.nextInt();
+
+            matriceLongeur = new Double[sommet][sommet];
+            matricePredecesseur = new int[sommet][sommet];
+
+
+
+            //INITIALISATION
+
+            for (int i = 0; i < sommet  ; i++) {
+                for (int j = 0; j < sommet ; j++)
+                    matriceLongeur[i][j] = inf;
+                System.out.println();
+            }
+            while (myReader.hasNextInt()) {
+                pointDepart = myReader.nextInt();
+                pointArrive = myReader.nextInt();
+                longeur = myReader.nextDouble();
+
+                System.out.println("Point de départ est " + pointDepart + " Point arrivée est " +
+                        pointArrive + " Longeur du chemin est " + longeur);
+
+                matricePredecesseur[pointDepart][pointArrive] = pointDepart + 1;
+                matriceLongeur[pointDepart][pointArrive] = longeur;
+
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(" Il y a un problème avec le graphe à tester");
+            e.printStackTrace();
+        }
+
+        System.out.println("Affichage de la matrice de longeur initial L");
+
+        for (int i = 0; i < sommet; i++) {
+            for (int j = 0; j < sommet; j++) {
+                System.out.print(matriceLongeur[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("Affichage de la matrice prédécesseurs P");
+
+        for (int i = 0; i < sommet; i++) {
+            for (int j = 0; j < sommet; j++) {
+                System.out.print(matricePredecesseur[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+
+
+
+        //CALCULS (ALGORITHME DE FLOYD)
+
+
+        for(int k = 0; k< sommet; k++)
+        {
+            for(int i = 0; i < sommet; i++)
+            {
+                for(int j =0; j < sommet; j++)
+                {
+                    if(matriceLongeur[i][k] + matriceLongeur[k][j] < matriceLongeur[i][j])
+                    {
+                        matriceLongeur[i][j] = matriceLongeur[i][k] + matriceLongeur[k][j];
+
+                        matricePredecesseur[i][j] = matricePredecesseur[k][j];
+                    }
+                }
+
+            }
+        }
+
+
+        System.out.println("Affichage de la matrice de longeur finale L");
+
+        for(int i=0; i<sommet; i++)
+        {
+            for(int j=0; j< sommet; j++)
+            {
+                System.out.print( matriceLongeur[i][j] +" " );
+            }
+            System.out.println();
+        }
+
+        System.out.println("Affichage de la matrice prédécesseurs finale P");
+
+        for(int i=0; i<sommet; i++)
+        {
+            for(int j=0; j<sommet; j++)
+            {
+                System.out.print(matricePredecesseur[i][j] +" " );
+            }
+            System.out.println();
+        }
+
+
+    }
+
+}
+
